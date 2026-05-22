@@ -8,7 +8,16 @@ dotenv.config({
     path: './env'
 })
 
-connectDB();
+
+connectDB()
+.then(()=>{
+    app.listen(processenv.PORT || 8000, ()=>{
+        console.log((`server is running at port ${process.env.PORT}`));
+    })
+})
+.catch( (err)=>{
+    console.log("NONGO db Connection failed !!!",err);
+})
 
 
 
