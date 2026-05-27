@@ -53,7 +53,8 @@ const userSchema = new mongoose.Schema(
 //These are functions that execute before a specific database operation (like saving, updating, or deleting a document) takes place.
 userSchema.pre("save", async function (next) {           //for saving password only if it is modified
     if(!this.isModified("password")) { return next(); }
-    this.password = bcrypt.hash(this.password, 10)
+
+    this.password = await bcrypt.hash(this.password, 10)
     next()
 })
 
