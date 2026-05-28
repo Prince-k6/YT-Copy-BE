@@ -51,11 +51,10 @@ const userSchema = new mongoose.Schema(
 
 //pre refers to pre-save or pre-hook middleware.
 //These are functions that execute before a specific database operation (like saving, updating, or deleting a document) takes place.
-userSchema.pre("save", async function (next) {           //for saving password only if it is modified
-    if (!this.isModified("password")) { return next(); }
+userSchema.pre("save", async function () {           //for saving password only if it is modified
+    if (!this.isModified("password")) return;
 
     this.password = await bcrypt.hash(this.password, 10)
-    next();
 })
 
 userSchema.methods.isPasswordCorrect = async function (password) {
